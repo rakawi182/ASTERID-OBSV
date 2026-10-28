@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "Jika Anda memakai ASTERID dalam penelitian, mohon kutip sebagai berikut."
+title: "ASTERID"
+abstract: >-
+  Aplikasi web satu berkas HTML untuk efemeris Matahari–Bulan, prediksi gerhana,
+  dan pengamatan Bulan. Memakai VSOP2013 dan ELP/MPP02 (JANUS di luar |t| = 30 abad),
+  presesi-nutasi IAU 2006/2000A, ΔT historis dari Morrison dkk. (2021), seri EOP IERS,
+  pemuatan non-pasang ESMGFZ, serta katalog gerhana NASA −1999…+3000.
+type: software
+authors:
+  # Ganti dengan nama lengkap Anda bila ingin dikutip sebagai perorangan, mis.:
+  # - family-names: "Nama-Belakang"
+  #   given-names: "Nama-Depan"
+  - name: "Jolotundo Research"
+    alias: "rakawi182"
+repository-code: "https://github.com/rakawi182/ASTERID-OBSV"
+url: "https://rakawi182.github.io/ASTERID-OBSV/"
+license: MIT
+date-released: "2026-10-28"
+keywords:
+  - ephemeris
+  - eclipses
+  - lunar libration
+  - delta T
+  - Earth orientation parameters
+  - VSOP2013
+  - ELP/MPP02
+  - astronomy
