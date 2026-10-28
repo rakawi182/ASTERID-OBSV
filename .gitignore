@@ -1,0 +1,19 @@
+# Cadangan dan hasil sementara
+*.bak
+*.bak-*
+*.tmp
+
+# Python
+__pycache__/
+*.pyc
+
+# Berkas data mentah (diunduh sendiri, lihat README)
+bulletina-*.txt
+EOP_*C04*.txt
+*.csv
+
+# Sistem / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
