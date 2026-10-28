@@ -1,5 +1,8 @@
 /* Service worker — ASTERID
  *
+ * Berkas aplikasi yang besar TIDAK ikut precache saat install (supaya Chrome cepat menganggap situs siap dipasang);
+ * ia diunduh ke cache segera setelah aktif dan pada pembukaan berikutnya.
+ *
  * Strategi: "cache dulu, perbarui di latar belakang".
  *  - Setelah dibuka sekali, aplikasi berjalan offline.
  *  - Setiap kali dibuka, salinan di cache disajikan langsung, lalu diperiksa ulang ke server
@@ -12,8 +15,7 @@
  */
 const APP_FILE = 'ASTERID.html';
 const CACHE = 'asterid-v1';
-const CORE = [
-  APP_FILE,
+const CORE = [            // berkas kecil: dipasang saat install agar service worker cepat aktif
   'manifest.webmanifest',
   'icon-192.png',
   'icon-512.png',
@@ -36,6 +38,7 @@ self.addEventListener('activate', function (e) {
       return Promise.all(keys.filter(function (k) { return k !== CACHE; }).map(function (k) { return caches.delete(k); }));
     }).then(function () { return self.clients.claim(); })
   );
+  precacheApp();                      // berkas aplikasi (besar) diunduh di latar belakang, tidak menahan aktivasi
 });
 
 function refresh(cache, req) {
@@ -43,6 +46,17 @@ function refresh(cache, req) {
     if (res && res.status === 200) { return cache.put(req, res.clone()).then(function () { return res; }); }
     return res;
   });
+}
+
+var pending = null;
+function precacheApp() {
+  if (pending) return pending;
+  pending = caches.open(CACHE).then(function (cache) {
+    return cache.match(APP_FILE).then(function (hit) {
+      return hit || refresh(cache, new Request(APP_FILE));
+    });
+  }).catch(function () {}).then(function () { pending = null; });
+  return pending;
 }
 
 self.addEventListener('fetch', function (e) {
@@ -54,6 +68,9 @@ self.addEventListener('fetch', function (e) {
   var key = req;
   if (req.mode === 'navigate' && /(\/|\/index\.html)$/.test(url.pathname)) {
     key = new Request(APP_FILE);            // "./" dan index.html langsung menyajikan aplikasi
+  }
+  if (url.pathname.indexOf(APP_FILE) === -1 && req.mode !== 'navigate') {
+    e.waitUntil(precacheApp());             // permintaan kecil lain menjaga SW tetap hidup sampai berkas aplikasi tersimpan
   }
 
   e.respondWith(
