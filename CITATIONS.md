@@ -14,7 +14,7 @@ Daftar pustaka dan sumber data yang mendasari ASTERID. Nomor `[n]` mengikuti hal
 8. Stephenson F.R., Morrison L.V., Hohenkerk C.Y., 2016, Measurement of the Earth's rotation: 720 BC to AD 2015, *Proc. R. Soc. A* 472, 20160404. DOI: [10.1098/rspa.2016.0404](https://doi.org/10.1098/rspa.2016.0404), beserta Suplemennya.
 9. Espenak F., Meeus J., 2006, NASA/TP-2006-214141; Espenak F., NASA GSFC Eclipse Web Site (keadaan gerhana 2026 sebagai acuan); Urban S.E., Seidelmann P.K. (eds.), 2013, *Explanatory Supplement to the Astronomical Almanac* (3rd ed.).
 10. Archinal B.A. dkk., 2011, Celest. Mech. Dyn. Astron. 109, 101 (radius rata-rata Bulan 1737,4 km).
-11. Katalog bintang: berkas `star_c.json` yang disertakan dengan proyek (**sumber tidak dinyatakan**); 12 baris dikoreksi dari daftar sebelumnya, 30 baris dibulatkan ke 1′ ditandai `*`.
+11. Katalog bintang (daftar 80 bintang untuk HUD dan appulse, serta tab STAR CATALOG dengan 8.870 bintang V ≤ 6,5): ESA, 1997, *The Hipparcos and Tycho Catalogues*, ESA SP-1200, Vol. 1 dan 5–9 (reduksi asli; posisi epos J1991.25 dipropagasi ke J2000,0); data bintang variabel dari Variability Annex, Vol. 11. Uraian metode ada di catatan SOURCE & METHOD pada tab STAR CATALOG.
 12. Morrison L.V., Stephenson F.R., Hohenkerk C.Y., Zawilski M., 2021, Addendum 2020 to "Measurement of the Earth's rotation: 720 BC to AD 2015", *Proc. R. Soc. A* 477, 20200776. DOI: [10.1098/rspa.2020.0776](https://doi.org/10.1098/rspa.2020.0776); materi elektronik: DOI [10.6084/m9.figshare.c.5300925](https://doi.org/10.6084/m9.figshare.c.5300925). ΔT = TT−UT1 untuk −720…+1810 dari spline Tabel S15.
 13. HM Nautical Almanac Office, UK Hydrographic Office, *Historical values of ΔT and LOD*, <http://astro.ukho.gov.uk/nao/lvm> (pembanding independen dalam audit).
 14. IERS Earth Orientation Centre, seri **EOP 20 C04** (harian, 1962–sekarang); IERS Rapid Service/Prediction Centre, **Bulletin A**; tabel detik kabisat IERS (Bulletin C). <https://hpiers.obspm.fr/eoppc/eop/eopc04/>, <https://datacenter.iers.org/eop.php>.
@@ -34,4 +34,4 @@ Daftar pustaka dan sumber data yang mendasari ASTERID. Nomor `[n]` mengikuti hal
 
 ## Catatan lisensi data pihak ketiga
 
-Kode ASTERID berlisensi MIT, tetapi data dan seri yang tertanam atau dipanggil berasal dari penyedia lain (IMCCE / Observatoire de Paris, IERS, NASA, GFZ Potsdam, ECMWF dan Open-Meteo, serta publikasi ilmiah di atas). Ketentuan penggunaan dan atribusi mengikuti penyedia masing-masing. Katalog bintang `star_c.json` belum punya sumber yang dinyatakan; lengkapi atribusinya sebelum mendistribusikan ulang secara terpisah dari aplikasi.
+Kode ASTERID berlisensi MIT, tetapi data dan seri yang tertanam atau dipanggil berasal dari penyedia lain (IMCCE / Observatoire de Paris, IERS, NASA, ESA (katalog Hipparcos), GFZ Potsdam, ECMWF dan Open-Meteo, serta publikasi ilmiah di atas). Ketentuan penggunaan dan atribusi mengikuti penyedia masing-masing.

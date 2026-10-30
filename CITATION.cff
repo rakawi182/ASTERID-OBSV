@@ -3,9 +3,9 @@ message: "Jika Anda memakai ASTERID dalam penelitian, mohon kutip sebagai beriku
 title: "ASTERID"
 abstract: >-
   Aplikasi web satu berkas HTML untuk efemeris Matahari–Bulan, prediksi gerhana,
-  dan pengamatan Bulan. Memakai VSOP2013 dan ELP/MPP02 (JANUS di luar |t| = 30 abad),
+  pengamatan Bulan, dan katalog bintang Hipparcos. Memakai VSOP2013 dan ELP/MPP02 (JANUS di luar |t| = 30 abad),
   presesi-nutasi IAU 2006/2000A, ΔT historis dari Morrison dkk. (2021), seri EOP IERS,
-  pemuatan non-pasang ESMGFZ, serta katalog gerhana NASA −1999…+3000.
+  pemuatan non-pasang ESMGFZ, katalog gerhana NASA −1999…+3000, serta katalog Hipparcos ESA SP-1200 (8.870 bintang).
 type: software
 authors:
   # Ganti dengan nama lengkap Anda bila ingin dikutip sebagai perorangan, mis.:
@@ -16,7 +16,7 @@ authors:
 repository-code: "https://github.com/rakawi182/ASTERID-OBSV"
 url: "https://rakawi182.github.io/ASTERID-OBSV/"
 license: MIT
-date-released: "2026-10-28"
+date-released: "2026-10-30"
 keywords:
   - ephemeris
   - eclipses
@@ -26,3 +26,5 @@ keywords:
   - VSOP2013
   - ELP/MPP02
   - astronomy
+  - Hipparcos
+  - star catalog

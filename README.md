@@ -10,7 +10,7 @@
 
 ## Fitur
 
-Aplikasi punya enam halaman:
+Aplikasi punya tujuh halaman:
 
 | Halaman | Isi singkat |
 |---|---|
@@ -20,6 +20,7 @@ Aplikasi punya enam halaman:
 | **TIME SCALES** | Konverter skala waktu (UTC, UT1, TT, TCG, ERA, GMST/GST, dan lainnya) |
 | **TOPOCENTRIC** | Posisi toposentrik untuk pengamat: refraksi, gradien atmosfer (APG), tunda troposfer VMF3, permukaan acuan RTM, meteorologi waktu nyata (ECMWF), dan pemuatan non-pasang |
 | **ECLIPSE CATALOG** | Katalog gerhana NASA −1999…+3000 (11.898 gerhana matahari dan 12.064 gerhana bulan) dengan deret Saros |
+| **STAR CATALOG** | Katalog Hipparcos (ESA SP-1200): 8.870 bintang V ≤ 6,5 dengan tempat tampak (apparent place), tinggi dan azimut di lokasi dan waktu HUD, B−V, bintang ganda/majemuk, dan data bintang variabel (Vol. 11); pencarian nomor HIP atau nama, urutan MAG/HIP/ALT/RA, filter HUD stars, above horizon, dan multiple |
 
 Kontrol waktu simulasi (maju/mundur, kecepatan, fase Bulan, gerhana, perigee/apogee) tersedia di atas halaman. **Ephemeris Audit** menjalankan uji langsung di halaman terhadap vektor uji publikasi (VSOP2013, IPS2000, JANUS, SOFA, IERS, LLIB, Meeus, NASA/Espenak).
 
@@ -27,6 +28,7 @@ Inti perhitungan:
 
 - **Matahari dan planet:** VSOP2013.
 - **Bulan:** ELP/MPP02 (fit LLR); JANUS dipakai di luar |t| = 30 abad.
+- **Bintang:** katalog Hipparcos ESA SP-1200 (reduksi asli 1997), posisi epos J1991.25 dipropagasi linear ke J2000, lalu tempat tampak lewat jalur yang sama dengan HUD (paralaks, defleksi cahaya, aberasi, presesi–nutasi).
 - **Presesi dan nutasi:** IAU 2006/2000A (setara `iauNut06a` SOFA).
 - **ΔT:** spline Morrison dkk. (2021) untuk −720…+2019, lalu parabola jangka panjang di luar tabel.
 - **EOP:** seri IERS 20 C04 dan Bulletin A tertanam di dalam berkas.
@@ -37,7 +39,7 @@ Inti perhitungan:
 1. Buka <https://rakawi182.github.io/ASTERID-OBSV/> di browser, **atau** unduh `ASTERID.html` dan buka langsung di browser (Chrome, Firefox, Edge, dan sebagainya).
 2. Aplikasi hampir seluruhnya berjalan **offline** karena semua data dan seri sudah tertanam. Pengecualian: **meteorologi waktu nyata** (ECMWF IFS HRES lewat [Open-Meteo](https://open-meteo.com)) butuh internet. Hasilnya disimpan di `localStorage` sampai 6 jam, dan tanpa data itu aplikasi memakai model GPT3.
 
-Ukuran berkas sekitar 24 MB karena seluruh seri ephemeris dan data sudah tertanam. Pemuatan pertama lewat data seluler agak berat.
+Ukuran berkas sekitar 25 MB karena seluruh seri ephemeris dan data sudah tertanam. Pemuatan pertama lewat data seluler agak berat.
 
 ## Pasang sebagai aplikasi (PWA)
 
@@ -74,6 +76,7 @@ Angka berikut adalah ketidakpastian yang dinyatakan di dalam aplikasi (halaman *
 - Di luar |t| = 30 abad, Bulan JANUS diselaraskan ke ELP/MPP02 lewat koreksi bujur terpasang. Hasil sebelum −1000 **tidak diverifikasi independen**.
 - Tabel fitur Bulan dimasukkan manual dan baik sampai sekitar ±1° (±30 km) posisi selenografis.
 - Batas gerhana matahari historis cocok dengan efemeris dan ΔT dalam ±20 detik untuk −708…1567.
+- Katalog bintang memakai reduksi Hipparcos asli (1997), bukan reduksi baru (2007) maupun Gaia. Gerak diri dan paralaks dipropagasi linear dari J1991.25; kecepatan radial dipakai hanya untuk 21 bintang yang membutuhkannya, selebihnya 0. Alt/Az bersifat geometrik (tanpa refraksi).
 - Aplikasi ini alat bantu penelitian. Untuk publikasi, verifikasi hasil kunci dengan sumber independen.
 
 ## Struktur repositori
@@ -105,7 +108,7 @@ Jika Anda memakai ASTERID dalam penelitian, kutip repositori ini (lihat `CITATIO
 
 ## Lisensi
 
-Kode di repositori ini dilisensikan di bawah [MIT License](LICENSE). Data dan model pihak ketiga (VSOP2013, ELP/MPP02, data IERS, katalog gerhana NASA, ESMGFZ, mosaik LROC-WAC dan GLD100, Open-Meteo, dan lainnya) tetap tunduk pada ketentuan penyedia masing-masing; lihat [`CITATIONS.md`](CITATIONS.md).
+Kode di repositori ini dilisensikan di bawah [MIT License](LICENSE). Data dan model pihak ketiga (VSOP2013, ELP/MPP02, data IERS, katalog gerhana NASA, katalog Hipparcos (ESA), ESMGFZ, mosaik LROC-WAC dan GLD100, Open-Meteo, dan lainnya) tetap tunduk pada ketentuan penyedia masing-masing; lihat [`CITATIONS.md`](CITATIONS.md).
 
 ## Kontribusi
 
