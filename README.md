@@ -20,7 +20,7 @@ Aplikasi punya tujuh halaman:
 | **TIME SCALES** | Konverter skala waktu (UTC, UT1, TT, TCG, ERA, GMST/GST, dan lainnya) |
 | **TOPOCENTRIC** | Posisi toposentrik untuk pengamat: refraksi, gradien atmosfer (APG), tunda troposfer VMF3, permukaan acuan RTM, meteorologi waktu nyata (ECMWF), dan pemuatan non-pasang |
 | **ECLIPSE CATALOG** | Katalog gerhana NASA −1999…+3000 (11.898 gerhana matahari dan 12.064 gerhana bulan) dengan deret Saros |
-| **STAR CATALOG** | Katalog Hipparcos (ESA SP-1200): 8.870 bintang V ≤ 6,5 dengan tempat tampak (apparent place), tinggi dan azimut di lokasi dan waktu HUD, B−V, bintang ganda/majemuk, dan data bintang variabel (Vol. 11); pencarian nomor HIP atau nama, urutan MAG/HIP/ALT/RA, filter HUD stars, above horizon, dan multiple |
+| **STAR CATALOG** | Katalog Hipparcos (ESA SP-1200): 8.870 bintang V ≤ 6,5 dengan tempat tampak (apparent place), tinggi dan azimut di lokasi dan waktu HUD, B−V, bintang ganda/majemuk, dan data bintang variabel (Vol. 11); pencarian nomor HIP, nama, atau rasi (misalnya "orion" atau "cma"), lencana rasi IAU di tiap baris, urutan MAG/HIP/ALT/RA, filter HUD stars, above horizon, dan multiple |
 
 Kontrol waktu simulasi (maju/mundur, kecepatan, fase Bulan, gerhana, perigee/apogee) tersedia di atas halaman. **Ephemeris Audit** menjalankan uji langsung di halaman terhadap vektor uji publikasi (VSOP2013, IPS2000, JANUS, SOFA, IERS, LLIB, Meeus, NASA/Espenak).
 
@@ -29,6 +29,7 @@ Inti perhitungan:
 - **Matahari dan planet:** VSOP2013.
 - **Bulan:** ELP/MPP02 (fit LLR); JANUS dipakai di luar |t| = 30 abad.
 - **Bintang:** katalog Hipparcos ESA SP-1200 (reduksi asli 1997), posisi epos J1991.25 dipropagasi linear ke J2000, lalu tempat tampak lewat jalur yang sama dengan HUD (paralaks, defleksi cahaya, aberasi, presesi–nutasi).
+- **Rasi:** batas rasi IAU (Delporte 1930, tabel Roman 1987) pada posisi yang dipresesikan ke B1875,0.
 - **Presesi dan nutasi:** IAU 2006/2000A (setara `iauNut06a` SOFA).
 - **ΔT:** spline Morrison dkk. (2021) untuk −720…+2019, lalu parabola jangka panjang di luar tabel.
 - **EOP:** seri IERS 20 C04 dan Bulletin A tertanam di dalam berkas.
