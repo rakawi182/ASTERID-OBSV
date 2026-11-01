@@ -16,7 +16,7 @@ Aplikasi punya tujuh halaman:
 |---|---|
 | **HUD** | Tampilan bola langit dengan layer dan kontrol pandangan; pengamat (horizon, PZX), laboratorium trigonometri bola, segitiga astronomi PZX 3D; posisi Matahari dan Bulan; syzygy dan gerhana; jalur gerhana matahari (peta dan lokal); Ephemeris Audit |
 | **ORBIT · ANGLES** | Segitiga Matahari–Bumi–Bulan: elongasi, sudut fase, jarak, tampilan 3D bidang ekliptika |
-| **MOON FACE** | Efemeris fisik Bulan (fase, libasi, titik sub-solar, sudut posisi sumbu) dengan cakram dari mosaik LROC-WAC dan relief GLD100; gerhana bulan; appulse Bulan dengan bintang katalog |
+| **MOON FACE** | Efemeris fisik Bulan (fase, librasi, titik sub-solar, sudut posisi sumbu) dengan cakram dari mosaik LROC-WAC dan relief GLD100; gerhana bulan; appulse Bulan dengan bintang katalog |
 | **TIME SCALES** | Konverter skala waktu (UTC, UT1, TT, TCG, ERA, GMST/GST, dan lainnya) |
 | **TOPOCENTRIC** | Posisi toposentrik untuk pengamat: refraksi, gradien atmosfer (APG), tunda troposfer VMF3, permukaan acuan RTM, meteorologi waktu nyata (ECMWF), dan pemuatan non-pasang |
 | **ECLIPSE CATALOG** | Katalog gerhana NASA −1999…+3000 (11.898 gerhana matahari dan 12.064 gerhana bulan) dengan deret Saros |
