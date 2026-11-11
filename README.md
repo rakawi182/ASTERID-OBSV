@@ -16,11 +16,11 @@ Aplikasi punya tujuh halaman:
 |---|---|
 | **HUD** | Tampilan bola langit dengan layer dan kontrol pandangan; pengamat (horizon, PZX), laboratorium trigonometri bola, segitiga astronomi PZX 3D; posisi Matahari dan Bulan; syzygy dan gerhana; jalur gerhana matahari (peta dan lokal); Ephemeris Audit |
 | **ORBIT · ANGLES** | Segitiga Matahari–Bumi–Bulan: elongasi, sudut fase, jarak, tampilan 3D bidang ekliptika |
-| **MOON FACE** | Efemeris fisik Bulan (fase, librasi, titik sub-solar, sudut posisi sumbu) dengan cakram dari mosaik LROC-WAC dan relief GLD100; gerhana bulan; appulse Bulan dengan bintang katalog |
+| **MOON FACE** | Efemeris fisik Bulan (fase, libasi, titik sub-solar, sudut posisi sumbu) dengan cakram dari mosaik LROC-WAC dan relief GLD100; gerhana bulan; appulse Bulan dengan bintang katalog |
 | **TIME SCALES** | Konverter skala waktu (UTC, UT1, TT, TCG, ERA, GMST/GST, dan lainnya) |
 | **TOPOCENTRIC** | Posisi toposentrik untuk pengamat: refraksi, gradien atmosfer (APG), tunda troposfer VMF3, permukaan acuan RTM, meteorologi waktu nyata (ECMWF), dan pemuatan non-pasang |
 | **ECLIPSE CATALOG** | Katalog gerhana NASA −1999…+3000 (11.898 gerhana matahari dan 12.064 gerhana bulan) dengan deret Saros |
-| **STAR CATALOG** | Katalog Hipparcos (ESA SP-1200): 8.870 bintang V ≤ 6,5 dengan tempat tampak (apparent place), tinggi dan azimut di lokasi dan waktu HUD, B−V, bintang ganda/majemuk, dan data bintang variabel (Vol. 11); pencarian nomor HIP, nama, atau rasi (misalnya "orion" atau "cma"), lencana rasi IAU di tiap baris, urutan MAG/HIP/ALT/RA, filter HUD stars, above horizon, dan multiple |
+| **STAR CATALOG** | Katalog Hipparcos: 8.870 bintang V ≤ 6,5 (reduksi baru 2007; gerak diri dan paralaks HGCA/Gaia EDR3 untuk 8.429 bintang) dengan tempat tampak (apparent place), tinggi dan azimut di lokasi dan waktu HUD, B−V (diperiksa silang dengan GCPD, BSC, Ducati), tipe spektrum (BSC), bintang ganda/majemuk, dan data bintang variabel (Vol. 11 dan GCVS 5.1); atlas rasi (peta stereografik, overlay Almagest); kalkulator heliacal rising/setting (model Schaefer 1993); pencarian nomor HIP, nama, atau rasi (misalnya "orion" atau "cma"), lencana rasi IAU di tiap baris, urutan MAG/HIP/ALT/RA, filter HUD stars, above horizon, dan multiple |
 
 Kontrol waktu simulasi (maju/mundur, kecepatan, fase Bulan, gerhana, perigee/apogee) tersedia di atas halaman. **Ephemeris Audit** menjalankan uji langsung di halaman terhadap vektor uji publikasi (VSOP2013, IPS2000, JANUS, SOFA, IERS, LLIB, Meeus, NASA/Espenak).
 
@@ -28,7 +28,7 @@ Inti perhitungan:
 
 - **Matahari dan planet:** VSOP2013.
 - **Bulan:** ELP/MPP02 (fit LLR); JANUS dipakai di luar |t| = 30 abad.
-- **Bintang:** katalog Hipparcos ESA SP-1200 (reduksi asli 1997), posisi epos J1991.25 dipropagasi linear ke J2000, lalu tempat tampak lewat jalur yang sama dengan HUD (paralaks, defleksi cahaya, aberasi, presesi–nutasi).
+- **Bintang:** katalog Hipparcos (reduksi baru, van Leeuwen 2007), posisi epos J1991.25 dipropagasi linear ke J2000; untuk 8.429 bintang gerak diri jangka panjang Hipparcos–Gaia dan paralaks Gaia EDR3 (HGCA, Brandt 2021); magnitudo V dan warna dari ESA SP-1200 (1997); tempat tampak lewat jalur yang sama dengan HUD (paralaks, defleksi cahaya, aberasi, presesi–nutasi).
 - **Rasi:** batas rasi IAU (Delporte 1930, tabel Roman 1987) pada posisi yang dipresesikan ke B1875,0.
 - **Presesi dan nutasi:** IAU 2006/2000A (setara `iauNut06a` SOFA).
 - **ΔT:** spline Morrison dkk. (2021) untuk −720…+2019, lalu parabola jangka panjang di luar tabel.
@@ -40,7 +40,7 @@ Inti perhitungan:
 1. Buka <https://rakawi182.github.io/ASTERID-OBSV/> di browser, **atau** unduh `ASTERID.html` dan buka langsung di browser (Chrome, Firefox, Edge, dan sebagainya).
 2. Aplikasi hampir seluruhnya berjalan **offline** karena semua data dan seri sudah tertanam. Pengecualian: **meteorologi waktu nyata** (ECMWF IFS HRES lewat [Open-Meteo](https://open-meteo.com)) butuh internet. Hasilnya disimpan di `localStorage` sampai 6 jam, dan tanpa data itu aplikasi memakai model GPT3.
 
-Ukuran berkas sekitar 25 MB karena seluruh seri ephemeris dan data sudah tertanam. Pemuatan pertama lewat data seluler agak berat.
+Ukuran berkas sekitar 24 MB (23,6 MiB) karena seluruh seri ephemeris dan data sudah tertanam; sebagian disimpan terkompresi lossless. Pemuatan pertama lewat data seluler agak berat.
 
 ## Pasang sebagai aplikasi (PWA)
 
@@ -77,7 +77,7 @@ Angka berikut adalah ketidakpastian yang dinyatakan di dalam aplikasi (halaman *
 - Di luar |t| = 30 abad, Bulan JANUS diselaraskan ke ELP/MPP02 lewat koreksi bujur terpasang. Hasil sebelum −1000 **tidak diverifikasi independen**.
 - Tabel fitur Bulan dimasukkan manual dan baik sampai sekitar ±1° (±30 km) posisi selenografis.
 - Batas gerhana matahari historis cocok dengan efemeris dan ΔT dalam ±20 detik untuk −708…1567.
-- Katalog bintang memakai reduksi Hipparcos asli (1997), bukan reduksi baru (2007) maupun Gaia. Gerak diri dan paralaks dipropagasi linear dari J1991.25; kecepatan radial dipakai hanya untuk 21 bintang yang membutuhkannya, selebihnya 0. Alt/Az bersifat geometrik (tanpa refraksi).
+- Katalog bintang memakai reduksi baru Hipparcos (2007); untuk 8.429 bintang gerak diri dan paralaks berasal dari HGCA (Hipparcos–Gaia, Gaia EDR3). Gerak diri dan paralaks dipropagasi linear dari J1991.25. Kecepatan radial: Hipparcos Vol. 1 Tabel 1.2.3 (21 bintang), lalu Gaia DR2 via HGCA (σ ≤ 5 km/s), selebihnya 0. B−V berasal dari Hipparcos dan dikoreksi untuk 218 bintang yang menyimpang lebih dari 0,05 mag dari konsensus minimal dua kompilasi (GCPD, BSC, Ducati); kompilasi itu tidak sepenuhnya independen satu sama lain. Alt/Az bersifat geometrik (tanpa refraksi).
 - Aplikasi ini alat bantu penelitian. Untuk publikasi, verifikasi hasil kunci dengan sumber independen.
 
 ## Struktur repositori
@@ -109,7 +109,7 @@ Jika Anda memakai ASTERID dalam penelitian, kutip repositori ini (lihat `CITATIO
 
 ## Lisensi
 
-Kode di repositori ini dilisensikan di bawah [MIT License](LICENSE). Data dan model pihak ketiga (VSOP2013, ELP/MPP02, data IERS, katalog gerhana NASA, katalog Hipparcos (ESA), ESMGFZ, mosaik LROC-WAC dan GLD100, Open-Meteo, dan lainnya) tetap tunduk pada ketentuan penyedia masing-masing; lihat [`CITATIONS.md`](CITATIONS.md).
+Kode di repositori ini dilisensikan di bawah [MIT License](LICENSE). Data dan model pihak ketiga (VSOP2013, ELP/MPP02, data IERS, katalog gerhana NASA, katalog Hipparcos (ESA), HGCA, GCVS, BSC, GCPD, Ducati, ESMGFZ, mosaik LROC-WAC dan GLD100, Open-Meteo, dan lainnya) tetap tunduk pada ketentuan penyedia masing-masing; lihat [`CITATIONS.md`](CITATIONS.md).
 
 ## Kontribusi
 

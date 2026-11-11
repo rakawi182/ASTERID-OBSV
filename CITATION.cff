@@ -5,7 +5,7 @@ abstract: >-
   Aplikasi web satu berkas HTML untuk efemeris Matahari–Bulan, prediksi gerhana,
   pengamatan Bulan, dan katalog bintang Hipparcos. Memakai VSOP2013 dan ELP/MPP02 (JANUS di luar |t| = 30 abad),
   presesi-nutasi IAU 2006/2000A, ΔT historis dari Morrison dkk. (2021), seri EOP IERS,
-  pemuatan non-pasang ESMGFZ, katalog gerhana NASA −1999…+3000, serta katalog Hipparcos ESA SP-1200 (8.870 bintang).
+  pemuatan non-pasang ESMGFZ, katalog gerhana NASA −1999…+3000, serta katalog Hipparcos (8.870 bintang; reduksi baru van Leeuwen 2007 dan HGCA) yang B−V-nya diperiksa silang dengan GCPD, BSC, dan Ducati.
 type: software
 authors:
   # Ganti dengan nama lengkap Anda bila ingin dikutip sebagai perorangan, mis.:
@@ -28,3 +28,5 @@ keywords:
   - astronomy
   - Hipparcos
   - star catalog
+  - heliacal rising
+  - Gaia
