@@ -10,17 +10,18 @@
 
 ## Fitur
 
-Aplikasi punya tujuh halaman:
+Aplikasi punya delapan halaman:
 
 | Halaman | Isi singkat |
 |---|---|
+| **SKY VIEW** | Peta langit dalam bingkai horizon (proyeksi stereografik) yang mengikuti sensor gerak HP (gyroscope) atau geseran jari; bintang Hipparcos berwarna dari B−V, garis rasi, ekuator dan ekliptika langit, Matahari, Bulan dengan fase dan paralaks toposentris, bayangan umbra dan penumbra saat gerhana bulan; mode kamera (AR) opsional; waktu mengikuti jam global. Sensor dan kamera hanya aktif lewat HTTPS |
 | **HUD** | Tampilan bola langit dengan layer dan kontrol pandangan; pengamat (horizon, PZX), laboratorium trigonometri bola, segitiga astronomi PZX 3D; posisi Matahari dan Bulan; syzygy dan gerhana; jalur gerhana matahari (peta dan lokal); Ephemeris Audit |
 | **ORBIT · ANGLES** | Segitiga Matahari–Bumi–Bulan: elongasi, sudut fase, jarak, tampilan 3D bidang ekliptika |
 | **MOON FACE** | Efemeris fisik Bulan (fase, libasi, titik sub-solar, sudut posisi sumbu) dengan cakram dari mosaik LROC-WAC dan relief GLD100; gerhana bulan; appulse Bulan dengan bintang katalog |
 | **TIME SCALES** | Konverter skala waktu (UTC, UT1, TT, TCG, ERA, GMST/GST, dan lainnya) |
 | **TOPOCENTRIC** | Posisi toposentrik untuk pengamat: refraksi, gradien atmosfer (APG), tunda troposfer VMF3, permukaan acuan RTM, meteorologi waktu nyata (ECMWF), dan pemuatan non-pasang |
 | **ECLIPSE CATALOG** | Katalog gerhana NASA −1999…+3000 (11.898 gerhana matahari dan 12.064 gerhana bulan) dengan deret Saros |
-| **STAR CATALOG** | Katalog Hipparcos: 8.870 bintang V ≤ 6,5 (reduksi baru 2007; gerak diri dan paralaks HGCA/Gaia EDR3 untuk 8.429 bintang) dengan tempat tampak (apparent place), tinggi dan azimut di lokasi dan waktu HUD, B−V (diperiksa silang dengan GCPD, BSC, Ducati), tipe spektrum (BSC), bintang ganda/majemuk, dan data bintang variabel (Vol. 11 dan GCVS 5.1); atlas rasi (peta stereografik, overlay Almagest); kalkulator heliacal rising/setting (model Schaefer 1993); pencarian nomor HIP, nama, atau rasi (misalnya "orion" atau "cma"), lencana rasi IAU di tiap baris, urutan MAG/HIP/ALT/RA, filter HUD stars, above horizon, dan multiple |
+| **STAR CATALOG** | Katalog Hipparcos: 8.870 bintang V ≤ 6,5 (reduksi baru 2007; gerak diri dan paralaks HGCA/Gaia EDR3 untuk 8.429 bintang) dengan tempat tampak (apparent place), tinggi dan azimut di lokasi dan waktu HUD, B−V (diperiksa silang dengan GCPD, BSC, Ducati), tipe spektrum (BSC, Hipparcos), bintang ganda/majemuk, dan data bintang variabel (Vol. 11 dan GCVS 5.1); atlas rasi (peta stereografik, overlay Almagest); kalkulator heliacal rising/setting (model Schaefer 1993); pencarian nomor HIP, nama, atau rasi (misalnya "orion" atau "cma"), lencana rasi IAU di tiap baris, urutan MAG/HIP/ALT/RA, filter HUD stars, above horizon, dan multiple |
 
 Kontrol waktu simulasi (maju/mundur, kecepatan, fase Bulan, gerhana, perigee/apogee) tersedia di atas halaman. **Ephemeris Audit** menjalankan uji langsung di halaman terhadap vektor uji publikasi (VSOP2013, IPS2000, JANUS, SOFA, IERS, LLIB, Meeus, NASA/Espenak).
 
@@ -77,7 +78,7 @@ Angka berikut adalah ketidakpastian yang dinyatakan di dalam aplikasi (halaman *
 - Di luar |t| = 30 abad, Bulan JANUS diselaraskan ke ELP/MPP02 lewat koreksi bujur terpasang. Hasil sebelum −1000 **tidak diverifikasi independen**.
 - Tabel fitur Bulan dimasukkan manual dan baik sampai sekitar ±1° (±30 km) posisi selenografis.
 - Batas gerhana matahari historis cocok dengan efemeris dan ΔT dalam ±20 detik untuk −708…1567.
-- Katalog bintang memakai reduksi baru Hipparcos (2007); untuk 8.429 bintang gerak diri dan paralaks berasal dari HGCA (Hipparcos–Gaia, Gaia EDR3). Gerak diri dan paralaks dipropagasi linear dari J1991.25. Kecepatan radial: Hipparcos Vol. 1 Tabel 1.2.3 (21 bintang), lalu Gaia DR2 via HGCA (σ ≤ 5 km/s), selebihnya 0. B−V berasal dari Hipparcos dan dikoreksi untuk 218 bintang yang menyimpang lebih dari 0,05 mag dari konsensus minimal dua kompilasi (GCPD, BSC, Ducati); kompilasi itu tidak sepenuhnya independen satu sama lain. Alt/Az bersifat geometrik (tanpa refraksi).
+- Katalog bintang memakai reduksi baru Hipparcos (2007); untuk 8.429 bintang gerak diri dan paralaks berasal dari HGCA (Hipparcos–Gaia, Gaia EDR3). Gerak diri dan paralaks dipropagasi linear dari J1991.25. Kecepatan radial: Hipparcos Vol. 1 Tabel 1.2.3 (21 bintang), lalu Gaia DR2 via HGCA (σ ≤ 5 km/s), selebihnya 0. B−V berasal dari Hipparcos (dengan kode sumber H39 pada label) dan dikoreksi untuk 218 bintang yang menyimpang lebih dari 0,05 mag dari konsensus minimal dua kompilasi (GCPD, BSC, Ducati); V (kode sumber H7) dikoreksi dengan aturan yang sama untuk 87 bintang non-variabel; kompilasi itu tidak sepenuhnya independen satu sama lain. Alt/Az bersifat geometrik (tanpa refraksi).
 - Aplikasi ini alat bantu penelitian. Untuk publikasi, verifikasi hasil kunci dengan sumber independen.
 
 ## Struktur repositori
