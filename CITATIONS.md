@@ -7,7 +7,7 @@ Daftar pustaka dan sumber data yang mendasari ASTERID. Nomor `[n]` mengikuti hal
 1. Chapront J., Francou G., 2003, A&A 404, 735. Teori Bulan ELP/MPP02 (seri, konstanta, nilai uji).
 2. Chapront J., Chapront-Touzé M., Francou G., 2002, A&A 387, 700 (penentuan parameter Bulan dari LLR, dasar fit LLR); Chapront J., Chapront-Touzé M., Francou G., 1999, A&A 343, 624.
 3. Chapront-Touzé M., Chapront J., 1988, A&A 190, 342 (ELP 2000-85); 1991, *Lunar Tables and Programs from 4000 B.C. to A.D. 8000*, Willmann-Bell (JANUS 98.12, dipakai di luar |t| = 30 abad).
-4. Simon J.-L., Francou G., Fienga A., Manche H., 2013, A&A 557, A49 (VSOP2013, berkas VSOP2013p3, `ftp.imcce.fr/pub/ephem/planets/vsop2013`); Fienga A. dkk., 2011, Celest. Mech. Dyn. Astron. 111, 363 (INPOP10a); Chapront J., Francou G., 2002, *Improved Planetary Solutions IPS2000* (pembanding independen); Standish E.M., 1998, dokumentasi JPL DE405/LE405 dan DE406.
+4. Simon J.-L., Francou G., Fienga A., Manche H., 2013, A&A 557, A49 (VSOP2013, berkas VSOP2013p3, `ftp.imcce.fr/pub/ephem/planets/vsop2013`); Fienga A. dkk., 2011, Celest. Mech. Dyn. Astron. 111, 363 (INPOP10a); Chapront J., Francou G., 2002, *Improved Planetary Solutions IPS2000* (seri Poisson penuh 500–2498 M: sumber posisi planet di tab PLANETS dan SKY VIEW, dan pembanding independen EMB di audit; kasus uji dari `notice.txt`); Chapront J., 2000, Celest. Mech. Dyn. Astron. 78, 75–82 (metode IPS); Bretagnon P., Francou G., 1988, A&A 202, 309 (VSOP87); Standish E.M., 1998, dokumentasi JPL DE405/LE405 dan DE406.
 5. Seri libasi Bulan LLIB04, LLIB245/403/405 dan pelengkapnya, polac.obspm.fr (Chapront dkk.); Moons M., 1982, *The Moon and the Planets* 27, 257; Meeus J., 1998, *Astronomical Algorithms* (2nd ed.), bab 53.
 6. Petit G., Luzum B. (eds.), 2010, *IERS Conventions (2010)*, IERS Technical Note 36; Capitaine N., Wallace P.T., Chapront J., 2003, A&A 412, 567; Wallace P.T., Capitaine N., 2006, A&A 459, 981; Mathews P.M., Herring T.A., Buffett B.A., 2002, J. Geophys. Res. 107(B4), 2068.
 7. IAU SOFA Board, *SOFA Software Collection* (`iauNut06a`, `iauEpv00`, `iauAtci13`, `iauAb`, `iauLd`): kasus uji yang dipakai dalam audit.
@@ -30,10 +30,14 @@ Daftar pustaka dan sumber data yang mendasari ASTERID. Nomor `[n]` mengikuti hal
 - Meteorologi waktu nyata: ECMWF IFS HRES melalui API [Open-Meteo](https://open-meteo.com).
 - Model visibilitas **Schaefer** (kalkulator heliacal rising/setting): Schaefer B.E., 1993, *Vistas in Astronomy* 36, 311–361 (*Astronomy and the Limits of Vision*); Schaefer B.E., 1987, *Archaeoastronomy* 11 (JHA 18), S19–S33 (*Heliacal rise phenomena*).
 - Atlas rasi, overlay Almagest: Verbunt F., van Gent R.H., 2012, A&A 544, A31 (CDS J/A+A/544/A31); Jaschek C., 1987 (CDS V/61; koordinat menurut Manitius 1913 sebagaimana dikutip di sana).
+- Magnitudo planet (tab PLANETS dan SKY VIEW): Mallama A., Hilton J.L., 2018, Computing apparent planetary magnitudes for *The Astronomical Almanac*, *Astronomy and Computing* 25, 10–24. †
+- Vektor uji audit transit planet: Espenak F., *2019 Transit of Mercury*, RASC *Observer's Handbook 2019*, dan *The 2012 Transit of Venus*, RASC *Observer's Handbook 2012* (NASA/GSFC, EclipseWise.com): saat dan separasi minimum geosentris.
 - Profil tepi Bulan **Watts** (koreksi tepi pada gerhana): Watts 1963 (VizieR VI/122).
 - Mosaik fotografis **LROC-WAC** dan model ketinggian **LRO GLD100** (cakram Bulan di halaman MOON FACE). † Rujukan umum: Robinson M.S. dkk., 2010, *Space Sci. Rev.* 150, 81 (LROC); Scholten F. dkk., 2012, *J. Geophys. Res.* 117, E00H17 (GLD100).
 
 † Tidak tercantum di halaman referensi aplikasi; ditambahkan sebagai rujukan umum dan sebaiknya diverifikasi sebelum dipublikasikan.
+
+Jari-jari planet (2439,7; 6051,8; 3396,2; 71.492; 60.268; 25.559; 24.764 km) dan arah kutub Saturnus (α 40,589°, δ 83,537°) yang dipakai untuk diameter sudut dan magnitudo Saturnus cocok dengan nilai IAU WGCCRE (Archinal dkk. 2011, rujukan [10]), tetapi sumbernya tidak dinyatakan di kode aplikasi; verifikasi sebelum dipublikasikan.
 
 ## Catatan lisensi data pihak ketiga
 

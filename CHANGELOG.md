@@ -2,6 +2,22 @@
 
 Format mengikuti [Keep a Changelog](https://keepachangelog.com/id-ID/1.1.0/).
 
+## [Planet dan audit planet] — 2026-11-12
+### Ditambahkan
+- **Tab PLANETS**: Merkurius sampai Neptunus dari deret IPS2000 penuh (Chapront & Francou 2002; 500–2498 M, 35.432 suku, tanpa pemotongan) dengan tunda cahaya, aberasi, dan kerangka presesi–nutasi yang sama dengan Matahari dan Bulan. Tiap planet menampilkan RA/Dek, λ/β tanggal, jarak ke Bumi dan Matahari, tinggi/azimut tampak lewat rantai tab TOPOCENTRIC, elongasi, sudut fase dan bagian tersinari, diameter sudut, magnitudo (Mallama & Hilton 2018), arah gerak, serta terbit, kulminasi, dan terbenam berikutnya. Ketuk planet untuk membukanya di SKY VIEW.
+- **Planet di SKY VIEW**: tombol PLANETS menggambar Merkurius sampai Neptunus dengan paralaks toposentris dan magnitudo; planet dapat diketuk untuk detail.
+- **Audit planet di Ephemeris Audit** (11 baris; total 230 pemeriksaan): posisi heliosentris tujuh planet pada 11 epoch 500–2498 M terhadap nilai uji `notice.txt` IPS2000 (toleransi 2×10⁻¹⁰ au, dari pembulatan nilai acuan 10 desimal), dan saat serta separasi minimum geosentris transit Merkurius 11 November 2019 dan Venus 6 Juni 2012 terhadap Espenak (RASC Observer's Handbook 2019 dan 2012).
+
+### Diubah
+- IPS2000 kini juga menjadi sumber posisi planet (sebelumnya hanya pembanding independen EMB di audit). Keterangan audit dan rujukan [4] di dalam aplikasi, README, dan `CITATIONS.md` disesuaikan.
+- Ukuran berkas 24,7 MiB.
+
+### Diperbaiki
+- Deret IPS2000 kini disimpan float64 penuh persis seperti berkas `ips2000.*` (sebelumnya amplitudo int32 per planet dan fase uint32, yang menyimpang sampai 3,1×10⁻⁷ au dari nilai uji `notice.txt` untuk Uranus). Kini selisihnya paling besar 7×10⁻¹¹ au di semua planet; hasil perhitungan planet berubah sampai ukuran selisih itu.
+
+### Keterbatasan yang diketahui
+- Magnitudo, diameter sudut, serta terbit, kulminasi, dan terbenam planet belum punya vektor uji di audit.
+
 ## [B−V diperiksa silang, atlas rasi, dan heliacal] — 2026-11-11
 ### Ditambahkan
 - **Tab SKY VIEW**: langit dalam bingkai horizon (stereografik) yang mengikuti gyroscope HP atau geseran jari, cubit untuk zoom, ketuk bintang untuk detail. Bintang Hipparcos berwarna dari B−V dengan tempat tampak dari `SM.starApp`, garis rasi, Matahari, Bulan dengan fase dan paralaks toposentris, dan bayangan umbra/penumbra gerhana bulan (radius Bumi diperbesar 1%; menghasilkan U 1,151 dan P 2,184 untuk gerhana 3 Maret 2026, sama dengan katalog NASA). Ekuator langit (tanda jam RA dan kutub NCP/SCP) dan ekliptika epos tanggal (tanda longitudo) dapat dinyalakan. Tombol waktu meneruskan ke jam global; model langit siang opsional, dengan bintang dan garis rasi redup yang dapat dinyalakan terpisah; mode kamera (AR) opsional. Planet belum digambar.
