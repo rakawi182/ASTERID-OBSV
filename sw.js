@@ -15,6 +15,7 @@
  */
 const APP_FILE = 'ASTERID.html';
 const CACHE = 'asterid-v1';
+const DATA = ['gpt3_1.bin', 'opole_0p5.bin', 'otl_fes2014b_1.bin', 'apl_rp_1.bin'];   // data yang dimuat aplikasi sesuai kebutuhan (grid GPT3 global, koefisien ocean pole tide global, grid ocean tide loading FES2014b, grid atmospheric pressure loading Ray & Ponte); ikut disimpan agar tetap bisa offline
 const CORE = [            // berkas kecil: dipasang saat install agar service worker cepat aktif
   'manifest.webmanifest',
   'icon-192.png',
@@ -54,6 +55,10 @@ function precacheApp() {
   pending = caches.open(CACHE).then(function (cache) {
     return cache.match(APP_FILE).then(function (hit) {
       return hit || refresh(cache, new Request(APP_FILE));
+    }).then(function () {
+      return Promise.all(DATA.map(function (u) {
+        return cache.match(u).then(function (hit) { return hit || refresh(cache, new Request(u)); }).catch(function () {});
+      }));
     });
   }).catch(function () {}).then(function () { pending = null; });
   return pending;

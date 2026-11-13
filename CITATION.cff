@@ -5,7 +5,7 @@ abstract: >-
   Aplikasi web satu berkas HTML untuk efemeris Matahari–Bulan, prediksi gerhana,
   pengamatan Bulan, posisi planet Merkurius–Neptunus, dan katalog bintang Hipparcos. Memakai VSOP2013 dan ELP/MPP02 (JANUS di luar |t| = 30 abad), IPS2000 untuk planet,
   presesi-nutasi IAU 2006/2000A, ΔT historis dari Morrison dkk. (2021), seri EOP IERS,
-  pemuatan non-pasang ESMGFZ, katalog gerhana NASA −1999…+3000, serta katalog Hipparcos (8.870 bintang; reduksi baru van Leeuwen 2007 dan HGCA) yang B−V-nya diperiksa silang dengan GCPD, BSC, dan Ducati.
+  pemuatan non-pasang ESMGFZ (stasiun), pemuatan global di luar stasiun (ocean tide loading FES2014b, ocean pole tide Desai 2002, atmospheric pressure loading Ray & Ponte 2003), katalog gerhana NASA −1999…+3000, serta katalog Hipparcos (8.870 bintang; reduksi baru van Leeuwen 2007 dan HGCA) yang B−V-nya diperiksa silang dengan GCPD, BSC, dan Ducati.
 type: software
 authors:
   # Ganti dengan nama lengkap Anda bila ingin dikutip sebagai perorangan, mis.:
@@ -16,7 +16,7 @@ authors:
 repository-code: "https://github.com/rakawi182/ASTERID-OBSV"
 url: "https://rakawi182.github.io/ASTERID-OBSV/"
 license: MIT
-date-released: "2026-11-12"
+date-released: "2026-11-13"
 keywords:
   - ephemeris
   - eclipses
@@ -32,3 +32,59 @@ keywords:
   - Gaia
   - planets
   - IPS2000
+  - tide loading
+  - atmospheric pressure loading
+  - ocean pole tide
+references:
+  - type: article
+    authors:
+      - family-names: "Ray"
+        given-names: "R. D."
+      - family-names: "Ponte"
+        given-names: "R. M."
+    title: "Barometric tides from ECMWF operational analyses"
+    journal: "Annales Geophysicae"
+    volume: 21
+    start: 1897
+    end: 1910
+    year: 2003
+  - type: article
+    authors:
+      - family-names: "Desai"
+        given-names: "S. D."
+    title: "Observing the pole tide with satellite altimetry"
+    journal: "Journal of Geophysical Research"
+    volume: 107
+    issue: "C11"
+    start: 3186
+    year: 2002
+    doi: "10.1029/2001JC001224"
+  - type: article
+    authors:
+      - family-names: "Lyard"
+        given-names: "F. H."
+      - family-names: "Allain"
+        given-names: "D. J."
+      - family-names: "Cancet"
+        given-names: "M."
+      - family-names: "Carrère"
+        given-names: "L."
+      - family-names: "Picot"
+        given-names: "N."
+    title: "FES2014 global ocean tide atlas: design and performance"
+    journal: "Ocean Science"
+    volume: 17
+    start: 615
+    end: 649
+    year: 2021
+    doi: "10.5194/os-17-615-2021"
+  - type: article
+    authors:
+      - family-names: "Farrell"
+        given-names: "W. E."
+    title: "Deformation of the Earth by surface loads"
+    journal: "Reviews of Geophysics and Space Physics"
+    volume: 10
+    start: 761
+    end: 797
+    year: 1972
