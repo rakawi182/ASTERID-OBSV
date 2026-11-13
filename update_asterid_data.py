@@ -18,7 +18,7 @@ Rules: the embedded table is daily and gap-free. IERS 20C04 (final) ends at the 
 (observed) values up to its last observation and predictions beyond. Days in the file that are newer than a new C04 file are kept
 when no new Bulletin A is given.
 """
-import argparse,base64,csv,datetime,json,re,sys
+import argparse,base64,csv,datetime,json,re,sys,zlib
 import numpy as np
 ap=argparse.ArgumentParser(description='Update the data embedded in ASTERID.html (see the module docstring).')
 ap.add_argument('html');ap.add_argument('--out');ap.add_argument('--c04');ap.add_argument('--bulletin');ap.add_argument('--start');ap.add_argument('--dry-run',action='store_true');ap.add_argument('--force',action='store_true')
@@ -30,17 +30,27 @@ def date_of(m):return (datetime.datetime(1858,11,17)+datetime.timedelta(days=flo
 def start_of(t):
     t=t.strip()
     return int(float(t)) if re.fullmatch(r'\d+(\.\d+)?',t) else int(mjd_of(t+'T00:00:00Z'))
+# The EOP block lives in const D=JSON.parse(__zt("<base64 raw-deflate JSON>",<uncompressed byte length>)); D holds 'eop','c04','pr', ...
+DRE=re.compile(r'const D=JSON\.parse\(__zt\("([A-Za-z0-9+/=]+)",(\d+)\)\);')
+def load_D(txt):
+    m=DRE.search(txt);assert m,'EOP block (const D=JSON.parse(__zt(...))) not found'
+    raw=zlib.decompress(base64.b64decode(m.group(1)),-15);assert len(raw)==int(m.group(2)),'D length mismatch'
+    d=json.loads(raw);assert all(k in d for k in('eop','c04','pr')),'D has no eop/c04/pr';return m,d
+def dump_D(d):
+    raw=json.dumps(d,separators=(',',':')).encode('utf-8');z=zlib.compressobj(9,zlib.DEFLATED,-15);b=z.compress(raw)+z.flush()
+    assert zlib.decompress(b,-15)==raw
+    return 'const D=JSON.parse(__zt("%s",%d));'%(base64.b64encode(b).decode(),len(raw))
 # ---------------- EOP ----------------
 if a.c04 or a.bulletin:
-    m=re.search(r'"eop":(\[\[.*?\]\]),"c04":(\d+),"pr":(\d+)',s,re.S);assert m,'EOP block not found'
-    old={int(r[0]):r for r in json.loads(m.group(1))};c04={};rap={};pred={};dxy={};issue=''
+    m,DD=load_D(s);old_c04=int(DD['c04']);old_pr=int(DD['pr'])
+    old={int(r[0]):r for r in DD['eop']};c04={};rap={};pred={};dxy={};issue=''
     if a.c04:
         for ln in open(a.c04):
             f=ln.split()
             if len(f)>=13 and f[0].isdigit() and len(f[0])==4:c04[int(float(f[4]))]=[float(f[7]),float(f[5]),float(f[6]),float(f[8]),float(f[9]),float(f[12])]
         assert c04,'no C04 rows'
-    else:c04={int(k):[r[1],r[2],r[3],r[4],r[5],r[6]] for k,r in old.items() if k<=int(m.group(2))}
-    c04_last=max(c04);old_c04=int(m.group(2));old_first=int(min(old));old_last=int(max(old))
+    else:c04={int(k):[r[1],r[2],r[3],r[4],r[5],r[6]] for k,r in old.items() if k<=old_c04}
+    c04_last=max(c04);old_first=int(min(old));old_last=int(max(old))
     if a.c04:  # how much did IERS revise the part of the series that was already embedded as final C04?
         both=[k for k in c04 if k in old and k<=old_c04]
         if both:
@@ -54,11 +64,17 @@ if a.c04 or a.bulletin:
             if r:rap[int(r.group(1))]=[float(r.group(4)),float(r.group(2)),float(r.group(3))]
             r=re.match(r'^\s+\d{4}\s+\d+\s+\d+\s+(\d{5})\s+(-?[\d.]+)\s+(-?[\d.]+)\s+(-?[\d.]+)\s*$',ln)
             if r:pred[int(r.group(1))]=[float(r.group(4)),float(r.group(2)),float(r.group(3))]
-        i=txt.find('IAU2000A Celestial Pole Offset');assert i>0,'dX,dY table not found'
-        for ln in txt[i:].split('\n'):
-            r=re.match(r'^\s+(\d{5})\s+(-?[\d.]+)\s+[\d.]+\s+(-?[\d.]+)\s+[\d.]+\s*$',ln)
-            if r:dxy[int(r.group(1))]=[float(r.group(2))/1e3,float(r.group(3))/1e3]
-        assert rap and pred and dxy,'Bulletin A tables not parsed'
+        i=txt.find('IAU2000A Celestial Pole Offset')
+        if i>0:
+            for ln in txt[i:].split('\n'):
+                r=re.match(r'^\s+(\d{5})\s+(-?[\d.]+)\s+[\d.]+\s+(-?[\d.]+)\s+[\d.]+\s*$',ln)
+                if r:dxy[int(r.group(1))]=[float(r.group(2))/1e3,float(r.group(3))/1e3]
+        assert rap and pred,'Bulletin A rapid/prediction tables not parsed'
+        if not dxy:  # some Bulletin A issues carry no dX,dY table: keep the dX,dY already embedded (FCN_T0 unchanged)
+            fm=re.search(r'const FCN_T0=(\d+)',s);assert fm,'FCN_T0 not found';f0=int(fm.group(1))
+            dxy={k:[old[k][4],old[k][5]] for k in old if c04_last<k<=f0}
+            if not dxy:dxy={c04_last:[c04[c04_last][3],c04[c04_last][4]]}
+            print('WARNING: this Bulletin A has no dX,dY (celestial pole offset) table: keeping the embedded dX,dY up to MJD %d and holding the last value beyond (FCN_T0 unchanged)'%max(dxy))
     ser={}
     if a.c04 and not a.bulletin:  # keep the rapid/prediction days that are already embedded and newer than the new C04 end
         for k,r in old.items():
@@ -79,13 +95,14 @@ if a.c04 or a.bulletin:
             else:v=dxy[min(k,dlast)];ser[k][3],ser[k][4]=v
         fcn=max(dxy);pr=max(rap);last=max(ser)
     else:
-        fcn=None;pr=max(int(m.group(3)),c04_last);last=max(ser)
+        fcn=None;pr=max(old_pr,c04_last);last=max(ser)
     start=start_of(a.start) if a.start else old_first
     if min(ser)>start:print('WARNING: --start %s is earlier than the first available day (%s); the table starts there'%(date_of(start),date_of(min(ser))))
     rows=[[float(k)]+[round(x,7) for x in ser[k]] for k in sorted(ser) if k>=start]
     gaps=[int(rows[i][0]) for i in range(len(rows)-1) if rows[i+1][0]-rows[i][0]!=1];assert not gaps,'EOP table must be daily and gap-free; gap after MJD %s'%gaps[:5]
     assert len(rows)>=3 and rows[-1][0]>=old_last-366,'the new table ends much earlier than the embedded one: wrong input files?'
-    s=s[:m.start()]+'"eop":'+json.dumps(rows,separators=(',',':'))+',"c04":%d,"pr":%d'%(c04_last,pr)+s[m.end():]
+    DD['eop']=rows;DD['c04']=c04_last;DD['pr']=pr
+    s=s[:m.start()]+dump_D(DD)+s[m.end():]
     if fcn:
         s,n=re.subn(r'const FCN_T0=\d+','const FCN_T0=%d'%fcn,s);assert n==1
         s,n=re.subn(r'last tabulated dX,dY \(MJD \d+\)','last tabulated dX,dY (MJD %d)'%fcn,s);assert n==1
