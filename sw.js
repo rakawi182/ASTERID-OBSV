@@ -15,7 +15,7 @@
  */
 const APP_FILE = 'ASTERID.html';
 const CACHE = 'asterid-v1';
-const DATA = ['gpt3_1.bin', 'opole_0p5.bin', 'otl_fes2014b_1.bin', 'apl_rp_1.bin'];   // data yang dimuat aplikasi sesuai kebutuhan (grid GPT3 global, koefisien ocean pole tide global, grid ocean tide loading FES2014b, grid atmospheric pressure loading Ray & Ponte); ikut disimpan agar tetap bisa offline
+const DATA = ['gpt3_1.bin', 'opole_0p5.bin', 'otl_fes2014b_1.bin', 'apl_rp_1.bin', 'vsop2013_mercury.bin', 'vsop2013_venus.bin', 'vsop2013_mars.bin', 'vsop2013_jupiter.bin', 'vsop2013_saturn.bin', 'vsop2013_uranus.bin', 'vsop2013_neptune.bin'];   // data yang dimuat aplikasi sesuai kebutuhan (grid GPT3 global, koefisien ocean pole tide global, grid ocean tide loading FES2014b, grid atmospheric pressure loading Ray & Ponte, deret VSOP2013 penuh untuk Merkurius, Venus, Mars, Jupiter, Saturn, Uranus, dan Neptunus; di luar 500–2498 CE ketujuhnya wajib karena tidak ada cadangan IPS2000); ikut disimpan agar tetap bisa offline
 const CORE = [            // berkas kecil: dipasang saat install agar service worker cepat aktif
   'manifest.webmanifest',
   'icon-192.png',

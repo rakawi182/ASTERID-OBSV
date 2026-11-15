@@ -3,7 +3,7 @@ message: "Jika Anda memakai ASTERID dalam penelitian, mohon kutip sebagai beriku
 title: "ASTERID"
 abstract: >-
   Aplikasi web satu berkas HTML untuk efemeris Matahari–Bulan, prediksi gerhana,
-  pengamatan Bulan, posisi planet Merkurius–Neptunus, dan katalog bintang Hipparcos. Memakai VSOP2013 dan ELP/MPP02 (JANUS di luar |t| = 30 abad), IPS2000 untuk planet,
+  pengamatan Bulan, posisi planet Merkurius–Neptunus (−4000…+8000), dan katalog bintang Hipparcos. Memakai VSOP2013 (Matahari, Bumi, dan ketujuh planet Merkurius–Neptunus) dan ELP/MPP02 (JANUS di luar |t| = 30 abad), IPS2000 (500–2498 M) sebagai cadangan dan pembanding planet,
   presesi-nutasi IAU 2006/2000A, ΔT historis dari Morrison dkk. (2021), seri EOP IERS,
   pemuatan non-pasang ESMGFZ (stasiun), pemuatan global di luar stasiun (ocean tide loading FES2014b, ocean pole tide Desai 2002, atmospheric pressure loading Ray & Ponte 2003), katalog gerhana NASA −1999…+3000, serta katalog Hipparcos (8.870 bintang; reduksi baru van Leeuwen 2007 dan HGCA) yang B−V-nya diperiksa silang dengan GCPD, BSC, dan Ducati.
 type: software
@@ -16,7 +16,7 @@ authors:
 repository-code: "https://github.com/rakawi182/ASTERID-OBSV"
 url: "https://rakawi182.github.io/ASTERID-OBSV/"
 license: MIT
-date-released: "2026-11-13"
+date-released: "2026-11-15"
 keywords:
   - ephemeris
   - eclipses
@@ -36,6 +36,22 @@ keywords:
   - atmospheric pressure loading
   - ocean pole tide
 references:
+  - type: article
+    authors:
+      - family-names: "Simon"
+        given-names: "J.-L."
+      - family-names: "Francou"
+        given-names: "G."
+      - family-names: "Fienga"
+        given-names: "A."
+      - family-names: "Manche"
+        given-names: "H."
+    title: "New analytical planetary theories VSOP2013 and TOP2013"
+    journal: "Astronomy & Astrophysics"
+    volume: 557
+    start: "A49"
+    year: 2013
+    doi: "10.1051/0004-6361/201321843"
   - type: article
     authors:
       - family-names: "Ray"
