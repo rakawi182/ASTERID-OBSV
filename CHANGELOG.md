@@ -2,6 +2,20 @@
 
 Format mengikuti [Keep a Changelog](https://keepachangelog.com/id-ID/1.1.0/).
 
+## [Perbaikan model ΔT] — 2026-11-16
+### Diubah
+- `dtModel`: spline Addendum 2020 sebelum 1956 (ramp halus ke C01 pada 1950–1956), IERS EOP C01 UT1−TAI untuk 1956–1972, tabel `DTD` dari 1972. `DTD` turun dari 1658 ke 781 node (node sebelum 1970 dan node setengah tahunan yang menyimpang di 1970–2009 dibuang). Hasil untuk y ≤ 1790 dan y ≥ 2027 tidak berubah.
+- Teks caption, referensi [12] dan [14], serta batasan disesuaikan.
+### Ditambahkan
+- Ephemeris Audit, kelompok ΔT: pemeriksaan spline 1820–1950, C01 vs USNO 1956–1972, spline vs USNO per era, tabel 1975–2003, kemulusan 1790–1972, dan kontinuitas sambungan 1956/1972.
+### Dihapus
+- Baris audit epoch 1904,6 (acuan −6,55 s berasal dari tabel yang bermasalah).
+### Verifikasi
+- Seluruh audit: 297 pemeriksaan. Terhadap USNO 1956–1972: 0,01 s rms (sebelumnya 0,25 s); terhadap IERS C01 1972–2019: 0,06–0,07 s rms (sebelumnya 1,7–5,5 s).
+### Keterbatasan
+- Terhadap USNO 1810–1900 selisihnya 2,0–3,5 s rms (model berbeda). Node C01 1956–1972 tertanam, jadi bukan uji independen.
+- Ukuran: `ASTERID.html` 25.971.029 byte.
+
 ## [Rentang planet −4000…+8000] — 2026-11-15
 ### Diubah
 - **Rentang tab PLANETS dan SKY VIEW diperluas dari 500–2498 CE (rentang IPS2000) ke −4000…+8000** (rentang deret VSOP2013 dan model Bumi; `VSP.JD0/JD1` = JD 260045 / 4643045, sama dengan modul Matahari). Gerbang `plCompute` kini memakai rentang VSOP2013, bukan rentang IPS2000.
