@@ -21,6 +21,9 @@ Daftar pustaka dan sumber data yang mendasari ASTERID. Nomor `[n]` mengikuti hal
 15. Espenak F., Meeus J., 2006 (rev. 2007), *Five Millennium Canon of Solar Eclipses: −1999 to +3000*, NASA/TP-2006-214141; 2009, *Five Millennium Canon of Lunar Eclipses*, NASA/TP-2009-214172; *Five Millennium Catalog of Solar Eclipses*, NASA/TP-2008-214170, dan *of Lunar Eclipses*, NASA/TP-2009-214173, <http://eclipse.gsfc.nasa.gov/SEcat5/>. Penomoran Saros: van den Bergh G., 1955, *Periodicity and Variation of Solar (and Lunar) Eclipses*, Tjeenk Willink, Haarlem.
 16. Meeus J., 1998, *Astronomical Algorithms* (2nd ed.), bab 7 (hari Julian dan tanggal kalender); Urban & Seidelmann, 2013.
 17. Williams J.G., Boggs D.H., 2016, Secular tidal changes in lunar orbit and Earth rotation, *Celest. Mech. Dyn. Astron.* 126, 89–129. DOI: [10.1007/s10569-016-9702-3](https://doi.org/10.1007/s10569-016-9702-3) (dikutip oleh [12]; tidak dipakai dalam perhitungan).
+18. European Space Agency, *Copernicus Global Digital Elevation Model*, GLO-30 (30 m; model permukaan, kanopi dan bangunan ikut terhitung). DOI: [10.5270/ESA-c5d3d65](https://doi.org/10.5270/ESA-c5d3d65). Atribusi: © DLR e.V. 2010–2014 dan © Airbus Defence and Space GmbH 2014–2018, disediakan di bawah COPERNICUS oleh Uni Eropa dan ESA; semua hak dilindungi. Dipakai untuk tinggi situs dan stasiun (DEM, RTM, kartu SITE HEIGHT).
+19. Zingerle P., Pail R., Gruber T., Oikonomidou X., 2020, The combined global gravity field model XGM2019e, *J. Geodesy* 94, 66. DOI: [10.1007/s00190-020-01398-0](https://doi.org/10.1007/s00190-020-01398-0). Undulasi dan defleksi vertikal dari grid XGM2019e_2159 (1° × 1° di sekitar stasiun, langkah 0,01°; nilainya dipakai sebagai undulasi).
+20. George J.J., 1960, *Weather Forecasting for Aeronautics*, Academic Press, New York. K-index, dihitung dari tingkat tekanan IFS 0,25° (kartu PLANETS).
 
 ## Model lain yang disebut di dalam aplikasi
 
@@ -45,4 +48,4 @@ Jari-jari planet (2439,7; 6051,8; 3396,2; 71.492; 60.268; 25.559; 24.764 km) dan
 
 ## Catatan lisensi data pihak ketiga
 
-Kode ASTERID berlisensi MIT, tetapi data dan seri yang tertanam atau dipanggil berasal dari penyedia lain (IMCCE / Observatoire de Paris, IERS, NASA, ESA (katalog Hipparcos), CDS (GCVS, BSC, GCPD, Ducati), GFZ Potsdam, ECMWF dan Open-Meteo, serta publikasi ilmiah di atas). Ketentuan penggunaan dan atribusi mengikuti penyedia masing-masing.
+Kode ASTERID berlisensi MIT, tetapi data dan seri yang tertanam atau dipanggil berasal dari penyedia lain (IMCCE / Observatoire de Paris, IERS, NASA, ESA (katalog Hipparcos dan Copernicus DEM), TUM dan ICGEM (XGM2019e), CDS (GCVS, BSC, GCPD, Ducati), GFZ Potsdam, ECMWF dan Open-Meteo, serta publikasi ilmiah di atas). Ketentuan penggunaan dan atribusi mengikuti penyedia masing-masing.

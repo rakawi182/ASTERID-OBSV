@@ -2,6 +2,32 @@
 
 Format mengikuti [Keep a Changelog](https://keepachangelog.com/id-ID/1.1.0/).
 
+## [Tinggi situs HUD dan kartu cuaca PLANETS] — 2026-11-18
+
+### Diubah
+- Permintaan ECMWF untuk lokasi HUD selain stasiun kini memakai koordinat dibulatkan ke 0,0001° (sebelumnya 0,01°, sehingga titik bisa bergeser hingga sekitar 0,8 km). Elevasi DEM Open-Meteo kini dibaca di titik situs (situs uji: 23,1 m menjadi 27,0 m). Kunci cache `ecmwf_site_*` berubah; cache lama tidak terpakai lagi.
+- Kartu ECMWF di tab PLANETS kini mereduksi p, T, e ke tinggi situs (sama dengan hitungan refraksi); sebelumnya ditampilkan pada elevasi model (Δh = 0). Ditambah baris Model elevation (API DEM) dan Target height.
+- Tata letak kartu PLANETS: label dan nilai boleh membungkus, judul grup berlebar penuh, header kartu bisa pindah baris, sehingga tidak ada lagi overflow horizontal di layar sempit. Baris "Interpolated hours · w" menjadi "Model hours (UTC) · weight".
+- Teks yang menyebut berkas pembanding diganti menjadi "reference implementation" (label tab TOPOCENTRIC, keterangan kartu, teks self-test, komentar kode).
+- Halaman ACCURACY · MODELS · REFERENCES: ditambah rujukan [18] Copernicus DEM GLO-30, [19] XGM2019e, dan [20] George (1960), serta catatan metode tinggi situs dan K-index. `CITATIONS.md` mengikuti penomoran itu; `README.md`: baris HUD menyebut kartu tinggi situs.
+
+### Ditambahkan
+- Kartu **SITE HEIGHT · DEM + XGM** di panel OBSERVER: H (DEM 30 m), N (grid XGM2019e), h = H + N, dan h pada rantai TOPOCENTRIC (HELL + DEM(situs) − DEM(stasiun)). Di luar cakupan DEM atau XGM nilai tampil "—" beserta rentang valid. `siteHeights(lat,lon)` diekspor di `ASTERID_TOPO`. Keterangan kartu menyebut bahwa Copernicus GLO-30 adalah model permukaan (kanopi dan bangunan ikut terhitung), jadi H bukan tinggi tanah gundul.
+- Kartu ECMWF tab PLANETS dan tab TOPOCENTRIC: **K-index** dihitung dari tingkat tekanan IFS 0,25° (K = (T850 − T500) + Td850 − (T700 − Td700), interpolasi linear dalam waktu), karena IFS HRES 9 km tidak punya tingkat tekanan dan `k_index` bernilai null di kedua model (dicek langsung pada API: semua null untuk `ecmwf_ifs` dan `ecmwf_ifs025`). Satu request kecil tambahan (`models=ecmwf_ifs025`, lima variabel) berjalan paralel dengan request utama dan disimpan di `raw.__k`, sehingga ikut cache dan jam UTC yang sama. Jika gagal, K-index tidak tampil dan kartu utama tidak terpengaruh.
+- Di tab TOPOCENTRIC baris K-index memuat nilai hitungan itu (dengan suku-sukunya), dan baris yang null sepanjang respons (mis. Lightning density) diberi catatan "not provided by IFS HRES". Di tab PLANETS, baris "Not in the IFS HRES output" menyebut variabel opsional yang null sepanjang respons (sekarang `k_index lightning_density`), sehingga "Variables rejected: none" tidak lagi membingungkan. Densitas petir tidak disediakan kedua model dan tidak ditampilkan.
+- Self-test baru: K-index (33, 35, 37 pada jam awal, tengah, akhir), nilai null di luar jendela atau dengan input hilang, URL request, dan daftar variabel null.
+
+### Verifikasi
+- `siteHeights` diuji di Node dengan kode dan data yang sama: stasiun H 554,509 / N 28,846 / h 583,356 m (rantai 583,355 m); (−7,521951°, 112,566089°) H 27,002 / N 28,872 / h 55,873 m; di luar DEM dan XGM bernilai null.
+- Semua blok skrip lolos `node --check`. Jangkar `update_asterid_data.py` (blok EOP dan NTD, teks FCN) identik; `build_full.py` dan `build_asterid_full.py` menghasilkan berkas identik pada uji dengan berkas biner contoh.
+- DOI Copernicus DEM (10.5270/ESA-c5d3d65) dan XGM2019e (10.1007/s00190-020-01398-0) dicocokkan dengan sumber daring.
+- Fungsi K-index dan self-test barunya dijalankan di Node: 0 pemeriksaan gagal. Pengecekan langsung pada API (di HP): `k_index` dan `lightning_density` null untuk `ecmwf_ifs` dan `ecmwf_ifs025`. Request `models=ecmwf_ifs025` ke `/v1/ecmwf` dengan lima variabel tingkat tekanan dicoba langsung di HP: respons 96 jam per jam, satuan °C, sel 0,25° di −7,5°, 112,5°; `ecKindex` dijalankan pada respons itu (K = 34,4 pada 2026-11-18 00:26 UTC; rentang 26,8–37,3 selama 96 jam).
+
+### Keterbatasan
+- Selisih undulasi GPT3 terinterpolasi dan XGM di situs uji 0,41 m (sekitar 0,05 hPa pada target ECMWF); tidak disamakan.
+- K-index berlaku untuk sel 0,25° (sekitar 25 km, 3-jam), bukan sel 9 km; nilainya baru ada setelah pengambilan data jam UTC berikutnya (awalan cache dinaikkan ke `ecmwf_cache_m3_`).
+- Ukuran: `ASTERID.html` 25.989.939 byte (+9.820 byte; sisa 224.461 byte di bawah 25 MiB).
+
 ## [Perbaikan model ΔT] — 2026-11-16
 ### Diubah
 - `dtModel`: spline Addendum 2020 sebelum 1956 (ramp halus ke C01 pada 1950–1956), IERS EOP C01 UT1−TAI untuk 1956–1972, tabel `DTD` dari 1972. `DTD` turun dari 1658 ke 781 node (node sebelum 1970 dan node setengah tahunan yang menyimpang di 1970–2009 dibuang). Hasil untuk y ≤ 1790 dan y ≥ 2027 tidak berubah.
