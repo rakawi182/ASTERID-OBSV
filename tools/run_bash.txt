@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+# Memperbarui data tertanam di ASTERID.html: EOP IERS (C04 + Bulletin A) dan ESMGFZ (analisis + prakiraan).
+#
+#   bash run_bash.txt            -> menulis ASTERID_FULL.html
+#   bash run_bash.txt --dry-run  -> hanya laporan, tidak menulis apa pun
+#
+# Berkas dicari di folder DIR. Yang dipilih otomatis:
+#   - C04 dan Bulletin A: berkas terbaru menurut waktu ubah
+#   - ESMGFZ analisis   : *_<tahun>_pointsubset.csv
+#   - ESMGFZ prakiraan  : *_<tahun>_<hari>F_pointsubset.csv (nomor hari tertinggi, mis. 324F -> 331F)
+# Versi pada nama (v1.0 atau v1_0) tidak dipaku. Bagian yang tidak ditemukan dilewati dengan peringatan.
+# ASTERID.html di DIR harus versi yang sudah mengenal prakiraan; ASTERID.html tidak diubah (hasil ke ASTERID_FULL.html).
+
+set -euo pipefail
+shopt -s nullglob
+
+DIR="${ASTERID_DIR:-/storage/emulated/0/Download/ASTERID_PRIME/update}"
+IN="ASTERID.html"
+OUT="ASTERID_FULL.html"
+START="1962-01-01"
+
+cd "$DIR" || { echo "ERROR: folder $DIR tidak ada"; exit 1; }
+
+PY="$(command -v python3 || command -v python || true)"
+[ -n "$PY" ] || { echo "ERROR: python tidak ditemukan"; exit 1; }
+[ -f update_asterid_data.py ] || { echo "ERROR: update_asterid_data.py tidak ada di $DIR"; exit 1; }
+[ -f "$IN" ] || { echo "ERROR: $IN tidak ada di $DIR"; exit 1; }
+grep -q -- '--ntal-fc' update_asterid_data.py || { echo "ERROR: update_asterid_data.py versi lama (tanpa --ntal-fc); ganti dengan yang baru"; exit 1; }
+
+# berkas terakhir menurut nama (urut versi) atau menurut waktu ubah; kosong bila tidak ada
+last_by_name() { if [ $# -gt 0 ]; then printf '%s\n' "$@" | sort -V | tail -n 1; fi; }
+last_by_time() { if [ $# -gt 0 ]; then ls -t -- "$@" | head -n 1; fi; }
+
+ARGS=()
+USED=()
+
+C04="$(last_by_time EOP_*_C04_*.txt)"
+BUL="$(last_by_time bulletina-*.txt)"
+if [ -n "$C04" ]; then ARGS+=(--c04 "$C04"); USED+=("C04       : $C04"); else echo "PERINGATAN: berkas C04 tidak ditemukan, EOP C04 dilewati"; fi
+if [ -n "$BUL" ]; then ARGS+=(--bulletin "$BUL"); USED+=("Bulletin A: $BUL"); else echo "PERINGATAN: Bulletin A tidak ditemukan, dilewati"; fi
+
+for K in NTAL NTOL HYDL SLEL; do
+  k="${K,,}"
+  AN="$(last_by_name ESMGFZ_${K}_cm_v*_[0-9][0-9][0-9][0-9]_pointsubset.csv)"
+  FC="$(last_by_name ESMGFZ_${K}_cm_v*_[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9]F_pointsubset.csv)"
+  if [ -n "$AN" ]; then ARGS+=("--$k" "$AN"); USED+=("$K analisis : $AN"); else echo "PERINGATAN: $K analisis tidak ditemukan, dilewati"; fi
+  if [ -n "$FC" ]; then ARGS+=("--$k-fc" "$FC"); USED+=("$K prakiraan: $FC"); else echo "PERINGATAN: $K prakiraan tidak ditemukan, tanpa prakiraan"; fi
+done
+
+[ ${#ARGS[@]} -gt 0 ] || { echo "ERROR: tidak ada berkas data yang ditemukan di $DIR"; exit 1; }
+
+echo "Folder: $DIR"
+printf '  %s\n' "${USED[@]}"
+echo "Masukan: $IN -> keluaran: $OUT"
+echo
+
+"$PY" update_asterid_data.py "$IN" "${ARGS[@]}" --start "$START" --out "$OUT" "$@"
