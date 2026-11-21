@@ -2,6 +2,79 @@
 
 Format mengikuti [Keep a Changelog](https://keepachangelog.com/id-ID/1.1.0/).
 
+## [ESMGFZ: analisis sampai 2026-11-19, prakiraan 324F sampai 2026-11-29, dan pembaru data yang mengenal prakiraan] — 2026-11-21
+
+### Ditambahkan
+- Deret non-tidal loading (NTAL, NTOL, HYDL, SLEL) di stasiun Jolotundo (frame CM) diperpanjang dari `*_2026_pointsubset.csv` (analisis): NTAL dan NTOL sampai 2026-11-19 21:00 (+8 sampel 3-jaman), HYDL dan SLEL sampai 11-19 12:00 (+1 sampel harian). Bagian yang tumpang tindih dengan data tertanam (2026-11-10…18) identik dengan float32 yang tersimpan.
+- Disambung dengan prakiraan `*_2026_324F_pointsubset.csv`: NTAL dan NTOL 11-20 00:00 sampai 11-29 21:00 (80 sampel), HYDL dan SLEL 11-20 12:00 sampai 11-29 12:00 (10 sampel). Analisis dan prakiraan bersambung tanpa celah. Kolom `dg` pada HYDL tidak dipakai.
+- `NTD` menyimpan `fc` (sampel prakiraan pertama) dan `fb` (sampel analisis terakhir; sama dengan `fc` bila bersambung). `ntlSeries` mengembalikan `src` (0 analisis, 1 jembatan linear bila ada celah, 2 prakiraan). Tanpa `fb`/`fc` perilaku lama tetap.
+- `update_asterid_data.py`: opsi `--ntal-fc`, `--ntol-fc`, `--hydl-fc`, `--slel-fc` untuk CSV prakiraan. CSV analisis (`--ntal` dan seterusnya) memperpanjang analisis dan menggantikan sampel prakiraan yang dicakupnya (harus bersambung dengan analisis tertanam). CSV prakiraan menggantikan seluruh bagian prakiraan; sampel sebelum akhir analisis diabaikan, dan celah dijembatani linear. Skrip melaporkan selisih prakiraan lama terhadap analisis baru, memperbarui keterangan di bawah kartu, dan menolak HTML tanpa dukungan prakiraan.
+
+### Diubah
+- Kartu NTAL, NTOL, HYDL, SLEL di tab TOPOCENTRIC kini berlabel menurut sumber ("ESMGFZ, interpolated", "ESMGFZ forecast, interpolated", atau "linear bridge over data gap"). "Last value held" baru muncul setelah akhir deret (kini 2026-11-29), sebelumnya setelah 11-18.
+- Audit: dua pemeriksaan baru. Nilai 5 epoch di sekitar 2026-11-19 terhadap interpolasi numpy CSV analisis, dan bendera sumber dibaca dari penanda `fb`/`fc` tiap deret (tidak terpaku pada tanggal), sehingga tetap berlaku setelah pembaruan berikutnya. Nilai prakiraan sengaja tidak dipaku di audit karena berganti tiap terbitan; skrip melaporkannya saat memuat.
+
+### Verifikasi
+- Di Node: 21 blok skrip lolos `node --check`; pemeriksaan non-tidal lama (2×10⁻⁷ mm) dan dua pemeriksaan baru lolos. Skrip diuji dari data lama dengan kedelapan CSV: hasilnya identik byte demi byte dengan `ASTERID.html` ini. Skenario sintetis: analisis menimpa sebagian prakiraan, prakiraan baru dengan celah (jembatan), analisis melewati akhir prakiraan, pembaruan sebagian deret, CSV dengan celah, dan prakiraan yang berakhir sebelum analisis (dua terakhir ditolak). Audit di Node lolos pada semua hasil. Halaman belum dibuka di browser, sehingga jumlah total audit (297 sebelumnya, kini seharusnya 299) belum dikonfirmasi di halaman.
+
+### Keterbatasan
+- Nilai prakiraan bersifat sementara. Pada HYDL dan SLEL, interval 11-19 12:00 sampai 11-20 12:00 menginterpolasi antara sampel analisis terakhir dan sampel prakiraan pertama, tetapi diberi label analisis.
+- Bila hanya sebagian deret diperbarui, keterangan di bawah kartu memakai akhir analisis paling awal dan awal prakiraan paling awal.
+- Ukuran: `ASTERID.html` 25.999.803 byte (+6.266 byte dari versi unggahan; sisa 214.597 byte di bawah 25 MiB).
+
+## [Panorama dan tinggi 24 jam pindah ke SKY VIEW; suhu pada tinggi target di kartu PLANETS] — 2026-11-19
+
+### Diubah
+- Panel SKY PANORAMA · HORIZON dan ALTITUDE · 24 H (WIB) dipindah dari tab HUD ke tab SKY VIEW, tepat di bawah peta langit (`data-p` dari `hud` menjadi `sky`). Isi dan perhitungan panel tidak berubah; panel hanya digambar saat tab SKY VIEW aktif, dan posisinya dikoreksi tiap detik bila panel SKY VIEW baru dibuat sesudahnya (cadangan: di bawah kartu HUD seperti semula).
+- Kartu ECMWF di tab PLANETS kini menampilkan Temperature, Dew point, Pressure, dan Relative humidity pada tinggi target (grup "At target height"). Baris itu sebelumnya disembunyikan oleh daftar `sk`; sejak kartu direduksi ke tinggi situs, nilainya berbeda dari grup "At API elevation" (di stasiun: elevasi model 541 m, tinggi target 554,5 m), sehingga tidak lagi berulang.
+- `README.md`: baris SKY VIEW menyebut kedua panel.
+
+### Verifikasi
+- Logika penempatan diuji dengan DOM minimal di Node: tab HUD tidak menampilkan panel, tab SKY VIEW menampilkan panel peta langit lalu panorama, tab PLANETS tidak menampilkannya. Semua blok skrip lolos `node --check`. Tampilan belum diuji di perangkat.
+
+### Keterbatasan
+- Ukuran: `ASTERID.html` 25.991.117 byte (+108 byte dari entri sebelumnya; sisa 223.283 byte di bawah 25 MiB).
+
+## [Laju rotasi sidereal: terbit, transit, dan terbenam planet] — 2026-11-18
+
+### Diubah
+- `RATE2` (blok PLANETS), `RATE` (SKY VIEW, `basisAt`) dan `RATE` (jejak sub-titik Matahari dan Bulan di HUD) ditulis `1.00273790935*7.2921159e-5` = 7,3121×10⁻⁵ rad/s. Laju sebenarnya (dGMST/dUT1) adalah 1,00273790935 putaran per hari UT1 = 7,2921159×10⁻⁵ rad/s; angka 7,2921159×10⁻⁵ sudah memuat faktor 1,0027379, jadi faktor itu terhitung dua kali dan laju terlalu besar 0,274 %. Kini `1.00273790935*2*Math.PI/86400` di ketiga tempat.
+- `window.__plRate` mengekspos laju yang dipakai iterasi sudut jam planet, hanya untuk audit.
+
+### Dampak
+- Next rise, Next transit, dan Next set planet jatuh lebih awal sebesar 0,273 % dari sisa waktu ke peristiwa (sekitar 3 menit untuk peristiwa 19 jam lagi, hingga 4 menit pada 24 jam) dan waktu yang tampil merayap lebih lambat sekitar 10 detik per jam selama jam berjalan, lalu melompat ketika peristiwa lewat. Itu sebabnya angkanya terlihat berubah-ubah.
+- Jejak sub-titik HUD (24 jam ke belakang) bergeser sampai sekitar 1° bujur di ujung jejaknya. Di SKY VIEW dampaknya diabaikan karena `gast0` disegarkan tiap `refresh`.
+- Rise, set, dan transit Matahari dan Bulan di HUD tidak terpengaruh (memakai `skySmp` dan ephemeris langsung, bukan iterasi laju).
+
+### Ditambahkan
+- Baris audit "Planet events": laju rotasi sidereal iterasi sudut jam dibanding 360,98564736629° per hari (selisih relatif 8,0×10⁻¹³, toleransi 10⁻⁹; sebelum perbaikan 2,7×10⁻³).
+
+### Verifikasi
+- Iterasi sudut jam yang sama dijalankan di Node untuk bintang tetap (tanpa gerak planet dan tanpa interpolasi, sehingga galat hanya berasal dari laju): transit 19,31 jam lagi lebih awal 189,8 s, 7,31 jam lagi lebih awal 71,8 s; dengan laju benar galatnya 0,000 s. Tampilan lama: 19:15:11, 19:15:21, 19:15:30, 19:15:40 UTC pada jam ke 0, 1, 2, 3 (merayap ±10 s per jam), sedangkan nilai sebenarnya tetap 19:18:20 UTC.
+- Semua blok skrip lolos `node --check`.
+
+### Keterbatasan
+- Mesin planet lengkap (VSOP2013 atau IPS2000 dengan modul SKY) tidak dapat dijalankan di lingkungan uji ini, sehingga posisi planet sebenarnya dan `plData` tidak diuji ujung ke ujung; yang diuji adalah konstanta dan iterasinya.
+- Ukuran: `ASTERID.html` 25.991.009 byte (+466 byte dari entri sebelumnya; sisa 223.391 byte di bawah 25 MiB).
+
+## [SKY NOW: terbit dan terbenam Matahari stabil dan sama dengan HUD] — 2026-11-18
+
+### Diubah
+- Waktu terbit dan terbenam Matahari di panel SKY NOW (tab PLANETS) kini diambil dari `SM.evCache()`, sumber yang sama dengan "Next sunrise" dan "Next sunset" di HUD (ephemeris presisi, bisection sampai milidetik, hanya dihitung ulang setelah peristiwa berikutnya lewat). Tinggi Matahari di judul panel dan klasifikasi DAY / TWILIGHT / NIGHT memakai `SM.skySmp` yang sama. `sun24` tetap dipakai untuk pita senja 24 jam dan sebagai cadangan jika HUD tidak tersedia. Nilai terakhir yang valid ditahan sesaat ketika cache HUD belum menyegarkan diri sesudah peristiwa lewat.
+
+### Penyebab
+- `sun24` mencuplik tinggi Matahari tiap 5 menit mulai dari "sekarang" tanpa interpolasi dan dihitung ulang tiap menit. Waktu yang tampil adalah peristiwa sebenarnya ditambah 0 sampai 5 menit, naik 1 menit tiap menit lalu melompat mundur (gigi gergaji), dan selalu lebih lambat dari HUD.
+- Jendela 24 jam (287 langkah × 5 menit = 1435 menit) lebih pendek dari selang antar-terbit (sekitar 1440 menit), sehingga terbit atau terbenam berikutnya kosong sekitar 5 menit sesudah peristiwa.
+- Bukan efek toposentrik: paralaks Matahari 8,8″ (0,0024°) setara kurang dari 1 detik waktu.
+
+### Verifikasi
+- Kode `sunAlt` dan `sun24` asli dijalankan di Node (−7,522°, 112,566°, 18 Nov 2026; rumus Matahari yang sama): terbit sebenarnya 05:00:41 WIB, terbenam 17:29:01 WIB. Tampilan lama berada 0,82 sampai 4,92 menit di atas nilai sebenarnya, dengan terbit kosong 5 dari 1440 menit dan terbenam kosong 6 menit.
+- Logika baru diuji dengan stub di Node: nilai tetap selama jam berjalan 12 menit, bertahan saat cache HUD belum segar, kembali ke cadangan jika HUD tidak tersedia. Semua blok skrip lolos `node --check`. Belum diuji langsung di perangkat.
+
+### Keterbatasan
+- Waktu terbit dan terbenam planet di kartu planet tidak diperiksa dalam perubahan ini.
+- Ukuran: `ASTERID.html` 25.990.543 byte (+604 byte dari entri sebelumnya; sisa 223.857 byte di bawah 25 MiB).
+
 ## [Tinggi situs HUD dan kartu cuaca PLANETS] — 2026-11-18
 
 ### Diubah

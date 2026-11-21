@@ -18,7 +18,7 @@ Aplikasi memiliki sembilan halaman:
 
 | Halaman | Isi |
 |---|---|
-| **SKY VIEW** | Peta langit dalam horizon frame (stereographic projection) yang mengikuti sensor gerak perangkat (gyroscope) atau geseran jari. Menampilkan bintang Hipparcos berwarna dari B−V, constellation lines, celestial equator dan ecliptic, Matahari, planet Merkurius–Neptunus (dengan magnitude), serta Bulan dengan phase dan topocentric parallax. Pada gerhana bulan, umbra dan penumbra ikut digambar. Mode kamera (AR) bersifat opsional, dan waktu mengikuti jam global. Sensor dan kamera hanya aktif lewat HTTPS |
+| **SKY VIEW** | Peta langit dalam horizon frame (stereographic projection) yang mengikuti sensor gerak perangkat (gyroscope) atau geseran jari. Menampilkan bintang Hipparcos berwarna dari B−V, constellation lines, celestial equator dan ecliptic, Matahari, planet Merkurius–Neptunus (dengan magnitude), serta Bulan dengan phase dan topocentric parallax. Pada gerhana bulan, umbra dan penumbra ikut digambar. Mode kamera (AR) bersifat opsional, dan waktu mengikuti jam global. Sensor dan kamera hanya aktif lewat HTTPS. Di bawah peta langit ada panel SKY PANORAMA · HORIZON (Matahari, Bulan, dan planet menurut azimuth dan altitude di lokasi HUD) dan grafik ALTITUDE · 24 H (WIB) dengan pita siang, senja, dan malam |
 | **PLANETS** | Merkurius sampai Neptunus: geocentric apparent place (true equator and equinox of date) untuk ketujuh planet dari series VSOP2013 penuh bila `vsop2013_mercury.bin`, `vsop2013_venus.bin`, `vsop2013_mars.bin`, `vsop2013_jupiter.bin`, `vsop2013_saturn.bin`, `vsop2013_uranus.bin`, dan `vsop2013_neptune.bin` termuat, jika tidak (hanya di dalam 500–2498 CE) dari series IPS2000 penuh, dengan light-time delay dan aberration. Rentang −4000…+8000 (rentang VSOP2013 dan model Bumi). Setiap planet menampilkan RA/Dec, ecliptic λ/β, jarak ke Bumi dan Matahari, altitude/azimuth (di stasiun TOPOCENTRIC memakai rantai koreksi penuh tab TOPOCENTRIC; di lokasi HUD lain memakai rantai yang sama tanpa data khusus stasiun (deflection of the vertical dihitung per lokasi di dalam area DEM dan XGM), dengan refraction dari grid GPT3 global atau standard atmosphere, dan kartu diberi label), elongation, phase angle dan illuminated fraction, angular diameter, magnitude (Mallama & Hilton 2018), arah gerak (prograde/retrograde), serta next rise, transit, dan set. Ketuk planet untuk membukanya di SKY VIEW |
 | **HUD** | Celestial sphere dengan layer dan kontrol pandangan; observer (horizon, PZX; kartu tinggi situs: H dari DEM, N dari XGM2019e, h ellipsoid), spherical trigonometry lab, astronomical triangle PZX 3D; posisi Matahari dan Bulan; syzygy dan eclipse; jalur gerhana matahari (peta dan lokal); **Ephemeris Audit** |
 | **ORBIT · ANGLES** | Segitiga Sun–Earth–Moon: elongation, phase angle, jarak, dan tampilan 3D ecliptic plane |
@@ -30,7 +30,7 @@ Aplikasi memiliki sembilan halaman:
 
 Kontrol waktu simulasi (maju/mundur, kecepatan, lunar phase, eclipse, perigee/apogee) tersedia di bagian atas halaman.
 
-**Ephemeris Audit** menjalankan pengujian langsung di halaman terhadap test vectors dari publikasi: VSOP2013, IPS2000, JANUS, SOFA, IERS, LLIB, Meeus, dan NASA/Espenak, termasuk transit Mercury 2019 dan Venus 2012. Totalnya 297 pemeriksaan.
+**Ephemeris Audit** menjalankan pengujian langsung di halaman terhadap test vectors dari publikasi: VSOP2013, IPS2000, JANUS, SOFA, IERS, LLIB, Meeus, dan NASA/Espenak, termasuk transit Mercury 2019 dan Venus 2012. Totalnya 299 pemeriksaan.
 
 ## Inti perhitungan
 
@@ -51,7 +51,7 @@ Kontrol waktu simulasi (maju/mundur, kecepatan, lunar phase, eclipse, perigee/ap
 | **Precession–nutation** | IAU 2006/2000A (setara `iauNut06a` SOFA) |
 | **ΔT** | Spline Morrison dkk. (2021, Addendum 2020) untuk −720…1955 (ramp halus ke C01 pada 1950–1956), IERS EOP C01 UT1−TAI untuk 1956–1972, tabel IERS/USNO dari 1972, lalu parabola jangka panjang di luar tabel |
 | **EOP** | Series IERS 20 C04 dan Bulletin A, tertanam di dalam berkas |
-| **Non-tidal loading** | ESMGFZ (NTAL, NTOL, HYDL, SLEL) |
+| **Non-tidal loading** | ESMGFZ (NTAL, NTOL, HYDL, SLEL): analisis 2024-01-01…2026-11-19, lalu prakiraan sampai 2026-11-29 (diberi label di tab TOPOCENTRIC) |
 
 ## Cara memakai
 
@@ -85,7 +85,7 @@ python3 update_asterid_data.py ASTERID.html --bulletin bulletina-xxxix-044.txt
 python3 update_asterid_data.py ASTERID.html --c04 EOP_20u24_C04_one_file_1962-now.txt
 ```
 
-Opsi yang berguna: `--out BERKAS` (menulis ke berkas lain, disarankan agar berkas lama menjadi backup), `--dry-run` (hanya melaporkan), `--force`, dan `--ntal/--ntol/--hydl/--slel` untuk berkas CSV ESMGFZ. Rincian lengkap ada di docstring pada bagian atas skrip.
+Opsi yang berguna: `--out BERKAS` (menulis ke berkas lain, disarankan agar berkas lama menjadi backup), `--dry-run` (hanya melaporkan), `--force`, `--ntal/--ntol/--hydl/--slel` untuk berkas CSV ESMGFZ analisis, dan `--ntal-fc/--ntol-fc/--hydl-fc/--slel-fc` untuk CSV prakiraan (mis. `*_324F_pointsubset.csv`). CSV analisis menggantikan sampel prakiraan yang dicakupnya; CSV prakiraan menggantikan seluruh bagian prakiraan. Perbarui prakiraan dengan analisis begitu ESMGFZ menerbitkannya. Rincian lengkap ada di docstring pada bagian atas skrip.
 
 Sumber berkas IERS: <https://hpiers.obspm.fr/eoppc/eop/eopc04/> dan <https://datacenter.iers.org/eop.php> (C04), serta <https://datacenter.iers.org/eop.php> dan <https://maia.usno.navy.mil> (Bulletin A). Setelah pembaruan, unggah ulang `ASTERID.html` ke repositori agar versi online ikut berubah.
 
